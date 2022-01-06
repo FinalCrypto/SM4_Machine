@@ -1,5 +1,3 @@
-extern crate crypto;
-
 pub mod binding;
 pub mod enc;
 pub mod dec;
