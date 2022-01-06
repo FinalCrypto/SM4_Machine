@@ -1,5 +1,6 @@
 pub mod enc;
 pub mod dec;
+mod sm4;
 
 #[cfg(test)]
 mod tests {
