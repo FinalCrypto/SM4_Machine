@@ -41,4 +41,7 @@ npm run serve
 # now your web server is running on http://127.0.0.1:8080
 ```
   
+Currently this application looks like this:
+
+![](./screenshots/webpage.png)
 
