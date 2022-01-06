@@ -6,6 +6,7 @@ This is a coursework.
 
 **DO NOT USE IT IN PRODUCTION**
 ## Usage
+
 ### Dependency
 
 - Rust Nightly with Cargo
