@@ -23,27 +23,30 @@ pub fn encrypt_buffer(plaintext: &[u8], mut key: String) -> Result<Vec<u8>, Stri
         iv
     };
 
-    let encryptor: CbcCts<Sm4> = CbcCts::new(Sm4::new(key[..16].into()), &iv.into());
-    
+    let mut encryptor: CbcCts<Sm4> = CbcCts::new(Sm4::new(key[..16].into()), &iv.into());
+    let cts_num = encryptor.pad_len(plaintext);
+    encryptor.set_cts_num(cts_num);
+
     let bs: usize = <Sm4 as BlockCipher>::BlockSize::to_usize();
-    // plaintext and IV
-    let pos = plaintext.len() + bs;
+    // IV and plaintext
+    let pos = bs + plaintext.len();
     // prepare space for padding
-    let total = pos + bs;
-    let mut buf = Vec::with_capacity(total);
+    let padded = pos + cts_num;
+    let mut buf = Vec::with_capacity(padded);
 
     let block: Block<Sm4> = Default::default();
 
     // prepare space for IV
     buf.extend_from_slice(&block);
     buf.extend_from_slice(plaintext);
-    // prepare space for padding
-    buf.extend_from_slice(&block);
+    // zero padding the last block
+    buf.resize(padded, 0);
 
-    encryptor.encrypt(&mut buf, pos).map_err(|x| x.to_string())?;
+    encryptor.encrypt(&mut buf, padded).map_err(|x| x.to_string())?;
 
     // the encrypted data is exactly the same length with the original data
     buf.truncate(pos);
+    buf.push(cts_num.try_into().unwrap());
     Ok(buf)
 }
 

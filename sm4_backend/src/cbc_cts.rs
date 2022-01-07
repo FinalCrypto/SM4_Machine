@@ -13,6 +13,7 @@ use cipher::{
     BlockEncrypt, 
     BlockDecrypt,
 };
+use cipher::generic_array::typenum::Unsigned;
 use crate::utils::xor;
 
 /// [Cipher Block Chaining][1] (CBC) block cipher mode instance.
@@ -21,7 +22,25 @@ use crate::utils::xor;
 #[derive(Clone)]
 pub struct CbcCts<C: BlockCipher + BlockEncrypt + BlockDecrypt> {
     cipher: C,
-    iv: GenericArray<u8, C::BlockSize>
+    iv: GenericArray<u8, C::BlockSize>,
+    pub cts_num: Option<usize>
+}
+
+impl<C: BlockCipher + BlockEncrypt + BlockDecrypt> CbcCts<C> {
+    pub fn pad_len(&mut self, buf: &[u8]) -> usize {
+        let bs = C::BlockSize::to_usize();
+        let len = buf.len();
+        let remainder = len % bs;
+        if remainder != 0 { 
+            bs - remainder 
+        } else {
+            0
+        }
+    }
+
+    pub fn set_cts_num(&mut self, cts_num: usize) {
+        self.cts_num = Some(cts_num);
+    }    
 }
 
 impl<C> BlockMode<C, ZeroPadding> for CbcCts<C>
@@ -34,6 +53,7 @@ where
         Self {
             cipher,
             iv: iv.clone(),
+            cts_num: None
         }
     }
 
@@ -49,26 +69,44 @@ where
             iv = block;
         }
 
-        let mut tmp = blocks[n - 1].clone();
-        swap(&mut tmp, &mut blocks[n - 2]);
-        blocks[n - 1] = tmp;
+        let mut tmp = blocks[n - 2].clone();
+        // steal the ciphertext
+        tmp[C::BlockSize::to_usize() - self.cts_num.unwrap()..].fill(0);
+        swap(&mut tmp, &mut blocks[n - 1]);
+        blocks[n - 2] = tmp;
     }
 
     fn decrypt_blocks(&mut self, blocks: &mut [Block<C>]) {
-        let n = blocks.len();
-        let mut tmp = blocks[n - 1].clone();
-        swap(&mut tmp, &mut blocks[n - 2]);
-        blocks[n - 1] = tmp;
-
         self.iv.copy_from_slice(&blocks[0]);
 
+        let n = blocks.len();
+        let (normal, padded) = blocks.split_at_mut(n - 2);
+
         let mut iv = self.iv.clone();
-        for block in &mut blocks[1..] {
+        for block in normal {
             let block_copy = block.clone();
             self.cipher.decrypt_block(block);
             xor(block, iv.as_slice());
             iv = block_copy;
         }
+
+        // for CBC CS3 mode, now prev is C_n, last is MSB_d(C_{n-1})
+        if let ([prev], [last]) = padded.split_at_mut(1) {
+            // swap prev and last, now prev is  MSB_d(C_{n-1}), last is C_n
+            swap(prev, last);
+
+            self.cipher.decrypt_block(last);
+            xor(last, prev);
+
+            // revocer stealed ciphertext to C_{n-1}
+            let steal_start = C::BlockSize::to_usize() - self.cts_num.unwrap();
+            prev[steal_start..].copy_from_slice(&last[steal_start..]);
+
+            last[steal_start..].fill(0);
+            self.cipher.decrypt_block(prev);
+            xor(prev, &iv);
+        }
+
     }
 }
 
