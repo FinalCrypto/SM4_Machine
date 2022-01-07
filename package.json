@@ -3,7 +3,6 @@
     "name": "sm4_machine",
     "scripts": {
         "serve": "webpack-dev-server",
-        "build": "webpack",
         "release": "webpack && cd sm4_server && cargo clean && cargo build --release && cd .."
     },
     "dependencies": {

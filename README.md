@@ -46,3 +46,14 @@ Currently this application looks like this:
 
 ![](./screenshots/webpage.png)
 
+### Build
+
+Run
+
+```
+npm run release
+```
+
+to build an executable at `./sm4_server/target/release/sm4_server`.
+
+The executable is standalone, run it and access http://127.0.0.1:8080. 
