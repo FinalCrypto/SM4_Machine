@@ -12,7 +12,7 @@ async function encrypt(msg, key) {
     const sm4 = await sm4_pkg;
 
     const startTime = performance.now();
-    const cipher = sm4.encrypt(msg, key);
+    const cipher = await sm4.encrypt(msg, key);
     const endTime = performance.now();
     return [endTime - startTime, cipher]
 }
@@ -27,7 +27,7 @@ async function decrypt(cipher, key) {
     const sm4 = await sm4_pkg;
 
     const startTime = performance.now();
-    const plain = sm4.decrypt(cipher, key);
+    const plain = await sm4.decrypt(cipher, key);
     const endTime = performance.now();
     return [endTime - startTime, plain]
 }
