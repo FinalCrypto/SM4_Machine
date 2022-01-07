@@ -11,7 +11,7 @@ use crate::{
 // Export a `greet` function from Rust to JavaScript, that alerts a
 // hello message.
 #[wasm_bindgen]
-pub fn decrypt(cipher: Uint8Array, key: String) -> Result<Uint8Array, JsValue> {
+pub async fn decrypt(cipher: Uint8Array, key: String) -> Result<Uint8Array, JsValue> {
     let plaintext = decrypt_buffer(&cipher.to_vec(), &key)?;
     Ok(Uint8Array::from(plaintext.as_slice()))
 }

@@ -9,8 +9,12 @@ const sm4_pkg =
  * TODO：考虑对用户输入进行哈希作为密码
  * */
 async function encrypt(msg, key) {
-    console.log("encrypting " + msg + " with " + key);
-    return (await sm4_pkg).encrypt(msg, key, "", 0)
+    const sm4 = await sm4_pkg;
+
+    const startTime = performance.now();
+    const cipher = sm4.encrypt(msg, key);
+    const endTime = performance.now();
+    return [endTime - startTime, cipher]
 }
 
 /**
@@ -20,22 +24,26 @@ async function encrypt(msg, key) {
  * @returns {Uint8Array} 解密结果
  */
 async function decrypt(cipher, key) {
-    console.log("encrypting " + cipher + " with " + key);
-    return (await sm4_pkg).decrypt(cipher, key, "", 0)
+    const sm4 = await sm4_pkg;
+
+    const startTime = performance.now();
+    const plain = sm4.decrypt(cipher, key);
+    const endTime = performance.now();
+    return [endTime - startTime, plain]
 }
 
 export async function encryptInput() {
     const file = document.getElementById("plain").files[0];
     const key = document.getElementById("enc_key").value;
 
-    await processInput(file, key, encrypt, file + ".enc");
+    await processInput(file, key, encrypt, file.name + ".enc");
 }
 
 export async function decryptInput() {
     const file = document.getElementById("cipher").files[0];
     const key = document.getElementById("dec_key").value;
 
-    await processInput(file, key, decrypt, file.toString() + ".dec");
+    await processInput(file, key, decrypt, file.name + ".dec");
 }
 
 async function processInput(file, key, processor, out_name) {
@@ -48,7 +56,9 @@ async function processInput(file, key, processor, out_name) {
     reader.onload = async content => {
         const plain = new Uint8Array(content.target.result);
 
-        const res = await processor(plain, key);
+        const [time, res] = await processor(plain, key);
+
+        console.log(`Process took ${time} ms`);
 
         // 下载文件
         const blob = new Blob([res], { type: "application/octet-stream" });
