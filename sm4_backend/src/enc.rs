@@ -1,5 +1,9 @@
-use cipher::{NewBlockCipher, BlockCipher, Block};
-use cipher::generic_array::typenum::Unsigned;
+use cipher::{
+    NewBlockCipher, 
+    BlockCipher, 
+    Block,
+    generic_array::typenum::Unsigned
+};
 use sm4::Sm4;
 use getrandom::getrandom;
 use block_modes::BlockMode;
@@ -8,9 +12,9 @@ use crate::cbc_cts::CbcCts;
 
 pub const SALT: &'static str = "Built_By_RSP_ZF_WWH_XJW";
 
-pub fn encrypt_buffer(plaintext: &[u8], mut key: String) -> Result<Vec<u8>, String> {
-    key.insert_str(0, SALT);
-    let key = digest(&SHA256, key.as_bytes());
+pub fn encrypt_buffer(plaintext: &[u8], key: &str) -> Result<Vec<u8>, String> {
+    let salted = format!("{}{}", SALT, key);
+    let key = digest(&SHA256, salted.as_bytes());
     let key: &[u8] = key.as_ref();
 
     let iv = {

@@ -1,15 +1,21 @@
-use cipher::generic_array::GenericArray;
-use cipher::{NewBlockCipher, BlockCipher};
-use cipher::generic_array::typenum::Unsigned;
+use cipher::{
+    generic_array::{
+        GenericArray,
+        typenum::Unsigned
+    },
+    NewBlockCipher, 
+    BlockCipher,
+};
+
 use sm4::Sm4;
 use block_modes::BlockMode;
 use ring::digest::{SHA256, digest};
 use crate::cbc_cts::CbcCts;
 use crate::enc::SALT;
 
-pub fn decrypt_buffer(cipher: &mut [u8], mut key: String) -> Result<Vec<u8>, String> {
-    key.insert_str(0, SALT);
-    let key = digest(&SHA256, key.as_bytes());
+pub fn decrypt_buffer(cipher: &[u8], key: &str) -> Result<Vec<u8>, String> {
+    let salted = format!("{}{}", SALT, key);
+    let key = digest(&SHA256, salted.as_bytes());
     let key: &[u8] = key.as_ref();
 
     let mut decryptor: CbcCts<Sm4> = CbcCts::new(
