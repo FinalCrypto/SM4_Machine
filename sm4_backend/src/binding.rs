@@ -1,7 +1,6 @@
 use seed::prelude::{
     js_sys::Uint8Array,
 };
-use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
 use crate::{enc::encrypt_buffer, dec::decrypt_buffer};
@@ -35,7 +34,6 @@ pub async fn encrypt(plain: Uint8Array, key: String) -> Result<Uint8Array, JsVal
 }
 
 #[wasm_bindgen]
-#[derive(Deserialize, Serialize)]
 pub enum SM4Error {
     EncError,
 }

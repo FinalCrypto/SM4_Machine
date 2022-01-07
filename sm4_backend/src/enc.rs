@@ -1,7 +1,7 @@
 use cipher::{NewBlockCipher, BlockCipher, Block};
 use cipher::generic_array::typenum::Unsigned;
-use rand::{rngs::OsRng, RngCore};
 use sm4::Sm4;
+use getrandom::getrandom;
 use block_modes::BlockMode;
 use ring::digest::{SHA256, digest};
 use crate::cbc_cts::CbcCts;
@@ -16,7 +16,7 @@ pub fn encrypt_buffer(plaintext: &[u8], mut key: String) -> Result<Vec<u8>, Stri
     let iv = {
         let mut secret = [0; 32];
         secret[..16].copy_from_slice(&key[16..]);
-        OsRng.fill_bytes(&mut secret[..16]);
+        getrandom(&mut secret[..16]).unwrap();
         let twice = digest(&SHA256, &secret);
         let mut iv = [0; 16];
         iv.copy_from_slice(&twice.as_ref()[..16]);
