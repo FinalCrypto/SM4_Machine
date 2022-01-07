@@ -25,7 +25,7 @@ async function decrypt(cipher, key) {
 }
 
 export async function encryptInput() {
-    const file = document.getElementById("plain").value;
+    const file = document.getElementById("plain").files[0];
     const key = document.getElementById("enc_key").value;
 
     await processInput(file, key, encrypt, file + ".enc");
