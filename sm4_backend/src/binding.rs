@@ -4,7 +4,7 @@ use seed::prelude::{
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
-use crate::enc::encrypt_buffer;
+use crate::{enc::encrypt_buffer, dec::decrypt_buffer};
 
 // Import the `window.alert` function from the Web.
 #[wasm_bindgen]
@@ -15,15 +15,19 @@ extern "C" {
 // Export a `greet` function from Rust to JavaScript, that alerts a
 // hello message.
 #[wasm_bindgen]
-pub fn decrypt(msg: String, _key: String, _iv: String, _mode: SM4Mode) -> String {
-    return msg;
+pub fn decrypt(cipher: Uint8Array, key: String) -> Result<Uint8Array, JsValue> {
+    let plaintext = decrypt_buffer(&mut cipher.to_vec(), key)?;
+    let js_array = Uint8Array::new_with_length(plaintext.len() as u32);
+    js_array.copy_from(&plaintext);
+
+    Ok(js_array)
 }
 
 // Export a `greet` function from Rust to JavaScript, that alerts a
 // hello message.
 #[wasm_bindgen]
-pub async fn encrypt(plain: Uint8Array, _key: String, _iv: String, mode: SM4Mode) -> Result<Uint8Array, JsValue> {
-    let cipher = encrypt_buffer(&plain.to_vec() , mode);
+pub async fn encrypt(plain: Uint8Array, key: String) -> Result<Uint8Array, JsValue> {
+    let cipher = encrypt_buffer(&plain.to_vec(), key)?;
     let js_array = Uint8Array::new_with_length(cipher.len() as u32);
     js_array.copy_from(&cipher);
 
@@ -31,12 +35,7 @@ pub async fn encrypt(plain: Uint8Array, _key: String, _iv: String, mode: SM4Mode
 }
 
 #[wasm_bindgen]
-pub enum SM4Mode {
-    None
-}
-
-#[wasm_bindgen]
 #[derive(Deserialize, Serialize)]
 pub enum SM4Error {
-    KeyError,
+    EncError,
 }
