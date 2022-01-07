@@ -8,10 +8,17 @@
 
 <body>
     <script src="./index.js"></script>
-    <input type="text" id="plain">
-    <input type="text" id="enc_key">
-    <button onclick="index.encryptInput()">submit</button>
-    <p id="enc_res"></p>
+    <div>
+        <input type="file" id="plain">
+        <input type="text" id="enc_key">
+        <button onclick="index.encryptInput()">submit</button>
+    </div>
+
+    <div>
+        <input type="file" id="cipher">
+        <input type="text" id="dec_key">
+        <button onclick="index.decryptInput()">submit</button>
+    </div>
 
 </body>
 
