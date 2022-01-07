@@ -1,6 +1,10 @@
 {
+    "bin": "index.js",
+    "name": "sm4_machine",
     "scripts": {
-        "serve": "webpack-dev-server"
+        "serve": "webpack-dev-server",
+        "build": "webpack",
+        "release": "webpack && cd sm4_server && cargo clean && cargo build --release && cd .."
     },
     "dependencies": {
         "sm4_backend": "file:./sm4_backend/pkg"
