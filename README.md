@@ -24,6 +24,12 @@ This is a coursework.
   nvm install node
   ```
   See https://heynode.com/tutorial/install-nodejs-locally-nvm/
+- Webpack
+  ```
+  npm install --save-dev webpack
+  npm install --save-dev webpack-dev-server
+  npm install -D webpack-cli
+  ```
 
 ### Serve
 
