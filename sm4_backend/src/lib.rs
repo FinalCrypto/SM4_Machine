@@ -1,3 +1,5 @@
+#![feature(alloc_error_hook)]
+
 pub mod binding;
 mod cbc_cts;
 mod utils;

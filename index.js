@@ -63,21 +63,25 @@ async function processInput(file, key, processor, out_name) {
     reader.onload = async content => {
         const plain = new Uint8Array(content.target.result);
 
-        const [time, res] = await processor(plain, key);
+        await processor(plain, key)
+            .then(([time, res]) => {
+                // 下载文件
+                const blob = new Blob([res], { type: "application/octet-stream" });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = out_name;
+                link.click();
 
-        // 下载文件
-        const blob = new Blob([res], { type: "application/octet-stream" });
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = out_name;
-        link.click();
+                costTime = time / 1000;
+                document.getElementById('progress').style.width = (650).toString() + 'px';
+                document.getElementById('progress_percent').innerHTML = "100%";
+                document.getElementById('cost').innerHTML = '| ' + secondsToTime(costTime);
+                document.getElementById('speed').innerHTML = '| ' + (fileSize / costTime).toFixed(2) + ' bytes/s';
+            })
+            .catch(e => alert("Error: " + e));
 
 
-        costTime = time / 1000;
-        document.getElementById('progress').style.width = (650).toString() + 'px';
-        document.getElementById('progress_percent').innerHTML = "100%";
-        document.getElementById('cost').innerHTML = '| ' + secondsToTime(costTime);
-        document.getElementById('speed').innerHTML = '| ' + (fileSize / costTime).toFixed(2) + ' bytes/s';
+
     }
 
     // 失败时在console打log
