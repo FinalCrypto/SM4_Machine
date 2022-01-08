@@ -3,6 +3,7 @@ mod cbc_cts;
 mod utils;
 mod enc;
 mod dec;
+mod sm4;
 
 #[cfg(test)]
 mod tests {

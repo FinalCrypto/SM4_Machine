@@ -7,7 +7,7 @@ use cipher::{
     BlockCipher,
 };
 
-use sm4::Sm4;
+use crate::sm4::Sm4;
 use block_modes::BlockMode;
 use ring::digest::{SHA256, digest};
 use crate::cbc_cts::CbcCts;

@@ -4,7 +4,7 @@ use cipher::{
     Block,
     generic_array::typenum::Unsigned
 };
-use sm4::Sm4;
+use crate::sm4::Sm4;
 use getrandom::getrandom;
 use block_modes::BlockMode;
 use ring::digest::{SHA256, digest};

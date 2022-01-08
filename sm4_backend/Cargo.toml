@@ -13,10 +13,10 @@ wasm-bindgen = "0.2.74"
 wasm-bindgen-futures = "0.4.28"
 seed = "0.8.0"
 cipher = "0.3.0"
-sm4 = "0.4.0"
 block-modes = "0.8.1"
 ring = "0.16.20"
 getrandom = { version = "0.2.3", features = ["wasm-bindgen"] }
+byteorder = { version = "1" }
 
 [dev-dependencies]
 futures = "0.3.19"
