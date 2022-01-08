@@ -7,5 +7,12 @@ module.exports = {
         library: "index",
         libraryTarget: 'window',
     },
-    mode: "development"
+    mode: "development",
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'sm4_server/public'),
+        },
+        compress: true,
+        port: 8080,
+    },
 };
