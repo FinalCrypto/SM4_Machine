@@ -1,51 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" >
-    <head>
-        <meta charset="utf-8" />
-        <title>Pure HTML5 file upload | Script Tutorials</title>
-        <link href="./main.css" rel="stylesheet" type="text/css" />
-        <script src="./index.js"></script>
-    </head>
-    <body>
-        <header>
-            <h2>File encryption system by SM4</h2>
-        </header>
-        <div class="container">
-            <div class="contr"><h2>You can select the file to encrypt or decrypt by SM4</h2></div>
+<html lang="en">
 
-            <div class="upload_form_cont">
-                <form id="upload_form" enctype="multipart/form-data">
-                    <div>
-                        <div><label for="selected_file">Please select a file</label></div>
-                        <div><input type="file" name="selected_file" id="selected_file" onchange="fileSelected();" /></div>
-                    </div>
-                    <div>
-                        <input type="text" placeholder="please input key here" id="key">
-                    </div>
-                    
-                    <div>
-                        <input type="button" id = 'encrypt' value="Encrypt" onclick="encryptInput()" />
-                        <input type="button" id = 'decrypt' value="Decrypt" onclick="decryptInput()" />
-                    </div>
-                    <div id="fileinfo">
-                        <div id="filename"></div>
-                        <div id="filesize"></div>
-                        <div id="filetype"></div>
-                    </div>
+<head>
+    <meta charset="utf-8" />
+    <title>Pure HTML5 file upload | Script Tutorials</title>
+    <link href="./main.css" rel="stylesheet" type="text/css" />
+    <script src="./index.js"></script>
+</head>
 
-                    <div id="progress_info">
-                        <div id="progress"></div>
-                        <div id="progress_percent">&nbsp;</div>
-                        <div class="clear_both"></div>
-                        <div>
-                            <div id="cost">&nbsp;</div>
-                            <div id="speed"> </div>
-                            <div class="clear_both"></div>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
+<body>
+    <header>
+        <h2>File encryption system by SM4</h2>
+    </header>
+    <div class="container">
+        <div class="contr">
+            <h2>You can select the file to encrypt or decrypt by SM4</h2>
         </div>
-    </body>
+
+        <div class="upload_form_cont">
+            <form id="upload_form" enctype="multipart/form-data">
+                <div>
+                    <div><label for="selected_file">Please select a file</label></div>
+                    <div><input type="file" name="selected_file" id="selected_file" onchange="index.fileSelected();" /></div>
+                </div>
+                <div>
+                    <input type="text" placeholder="please input key here" id="key">
+                </div>
+
+                <div>
+                    <input type="button" id='encrypt' value="Encrypt" onclick="index.encryptInput()" />
+                    <input type="button" id='decrypt' value="Decrypt" onclick="index.decryptInput()" />
+                </div>
+                <div id="fileinfo">
+                    <div id="filename"></div>
+                    <div id="filesize"></div>
+                    <div id="filetype"></div>
+                </div>
+
+                <div id="progress_info">
+                    <div id="progress"></div>
+                    <div id="progress_percent">&nbsp;</div>
+                    <div class="clear_both"></div>
+                    <div>
+                        <div id="cost">&nbsp;</div>
+                        <div id="speed"> </div>
+                        <div class="clear_both"></div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</body>
+
 </html>
