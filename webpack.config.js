@@ -18,6 +18,7 @@ module.exports = {
             directory: path.join(__dirname, 'sm4_server/public'),
         },
         compress: true,
+        host: "0.0.0.0",
         port: 8080,
     },
     ignoreWarnings: [

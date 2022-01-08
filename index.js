@@ -99,7 +99,7 @@ function secondsToTime(secs) { // we will use this function to convert seconds i
 }
 
 function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB'];
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
     if (bytes == 0) return 'n/a';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
@@ -108,14 +108,9 @@ function bytesToSize(bytes) {
 export function fileSelected() {
     var oFile = document.getElementById('selected_file').files[0];
 
-    var oReader = new FileReader();
-    oReader.onload = function(e) {
-        oFile.src = e.target.result;
-        document.getElementById('fileinfo').style.display = 'block';
-        document.getElementById('filename').innerHTML = 'Name: ' + oFile.name;
-        document.getElementById('filesize').innerHTML = 'Size: ' + bytesToSize(oFile.size);
-        document.getElementById('filetype').innerHTML = 'Type: ' + oFile.type;
-        fileSize = oFile.size;
-    };
-    oReader.readAsDataURL(oFile);
+    document.getElementById('fileinfo').style.display = 'block';
+    document.getElementById('filename').innerHTML = 'Name: ' + oFile.name;
+    document.getElementById('filesize').innerHTML = 'Size: ' + bytesToSize(oFile.size);
+    document.getElementById('filetype').innerHTML = 'Type: ' + oFile.type;
+    fileSize = oFile.size;
 }
