@@ -83,7 +83,7 @@ async function processInput(file, key, processor, out_name) {
                 document.getElementById('progress').style.width = (650).toString() + 'px';
                 document.getElementById('progress_percent').innerHTML = "100%";
                 document.getElementById('cost').innerHTML = '| ' + secondsToTime(costTime);
-                document.getElementById('speed').innerHTML = '| ' + bytesToSize(fileSize / costTime).toFixed(2) + ' bytes/s';
+                document.getElementById('speed').innerHTML = '| ' + bytesToSize(fileSize / costTime) + '/s';
             })
             .catch(e => alert("Error: " + e));
 
