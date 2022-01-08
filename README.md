@@ -15,6 +15,8 @@ We've already hosted it at https://dere.press/tools/sm4/ .
 
 Go to our release page: https://github.com/FinalCrypto/SM4_Machine/releases/tag/v0.1 and download a pre-built binary for your platform.
 
+Run the executable and then access http://localhost:8080 and enjoy!
+
 ### Built from source
 
 #### Install dependencies
