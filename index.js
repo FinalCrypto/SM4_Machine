@@ -1,6 +1,13 @@
 const sm4_pkg =
     import ("./sm4_backend/pkg/sm4_backend_bg.js");
 
+function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+}
+
 var fileSize = 0;
 var costTime = 0;
 /**
@@ -100,13 +107,6 @@ function secondsToTime(secs) { // we will use this function to convert seconds i
     if (sec < 10) { sec = "0" + sec; }
     if (hr) { hr = "00"; }
     return hr + ':' + min + ':' + sec;
-}
-
-function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-    if (bytes == 0) return 'n/a';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
 export function fileSelected() {

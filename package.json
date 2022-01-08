@@ -2,7 +2,7 @@
     "bin": "index.js",
     "name": "sm4_machine",
     "scripts": {
-        "serve": "webpack-dev-server",
+        "serve": "webpack && webpack-dev-server",
         "release": "webpack && cd sm4_server && cargo clean && cargo build --release && cd .."
     },
     "dependencies": {
