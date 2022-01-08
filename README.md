@@ -7,11 +7,22 @@ This is a coursework.
 **DO NOT USE IT IN PRODUCTION**
 ## Usage
 
-### Dependency
+### Online Demo
+
+We've already hosted it at https://dere.press/tools/sm4/ .
+
+### Pre-built binaries
+
+Go to our release page: https://github.com/FinalCrypto/SM4_Machine/releases/tag/v0.1 and download a pre-built binary for your platform.
+
+### Built from source
+
+#### Install dependencies
 
 - Rust Nightly with Cargo
   ```
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  rustup toolchain install nightly
   rustup default nightly
   ```
 - wasm-pack
@@ -30,7 +41,7 @@ This is a coursework.
   npm install
   ```
 
-### Serve
+#### Serve with webpack
 
 ```sh
 # clone this repo
@@ -46,12 +57,8 @@ npm run serve
 
 # now your web server is running on http://127.0.0.1:8080
 ```
-  
-Currently this application looks like this:
 
-![](./screenshots/webpage.png)
-
-### Build
+#### Build a binary
 
 Run
 
