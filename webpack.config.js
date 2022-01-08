@@ -1,4 +1,5 @@
 const path = require('path');
+
 module.exports = {
     entry: "./index.js",
     output: {
@@ -6,6 +7,10 @@ module.exports = {
         filename: "index.js",
         library: "index",
         libraryTarget: 'window',
+    },
+    experiments: {
+        asyncWebAssembly: true,
+        syncWebAssembly: true,
     },
     mode: "development",
     devServer: {
@@ -15,4 +20,9 @@ module.exports = {
         compress: true,
         port: 8080,
     },
+    ignoreWarnings: [
+        (warning) =>
+        warning.message ===
+        "Critical dependency: the request of a dependency is an expression",
+    ],
 };

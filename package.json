@@ -6,11 +6,12 @@
         "release": "webpack && cd sm4_server && cargo clean && cargo build --release && cd .."
     },
     "dependencies": {
-        "sm4_backend": "file:./sm4_backend/pkg"
+        "sm4_backend": "file:./sm4_backend/pkg",
+        "webpack-ignore-dynamic-require": "*"
     },
     "devDependencies": {
-        "webpack": "^4.46.0",
-        "webpack-cli": "^4.9.1",
-        "webpack-dev-server": "^4.7.2"
+        "webpack": "*",
+        "webpack-cli": "*",
+        "webpack-dev-server": "*"
     }
 }
