@@ -72,12 +72,12 @@ async function processInput(file, key, processor, out_name) {
         link.download = out_name;
         link.click();
 
-        
+
         costTime = time / 1000;
         document.getElementById('progress').style.width = (650).toString() + 'px';
-        document.getElementById('progress_percent').innerHTML =  "100%";
-        document.getElementById('cost').innerHTML = '| ' + secondsToTime(costTime);            
-        document.getElementById('speed').innerHTML = '| ' + (fileSize/costTime).toFixed(2) + ' bytes/s';        
+        document.getElementById('progress_percent').innerHTML = "100%";
+        document.getElementById('cost').innerHTML = '| ' + secondsToTime(costTime);
+        document.getElementById('speed').innerHTML = '| ' + (fileSize / costTime).toFixed(2) + ' bytes/s';
     }
 
     // 失败时在console打log
@@ -88,22 +88,22 @@ async function processInput(file, key, processor, out_name) {
 
 function secondsToTime(secs) { // we will use this function to convert seconds in normal time format
     var hr = Math.floor(secs / 3600);
-    var min = Math.floor((secs - (hr * 3600))/60);
-    var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+    var min = Math.floor((secs - (hr * 3600)) / 60);
+    var sec = Math.floor(secs - (hr * 3600) - (min * 60));
 
-    if (hr < 10) {hr = "0" + hr; }
-    if (min < 10) {min = "0" + min;}
-    if (sec < 10) {sec = "0" + sec;}
-    if (hr) {hr = "00";}
+    if (hr < 10) { hr = "0" + hr; }
+    if (min < 10) { min = "0" + min; }
+    if (sec < 10) { sec = "0" + sec; }
+    if (hr) { hr = "00"; }
     return hr + ':' + min + ':' + sec;
-};
+}
 
 function bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB'];
     if (bytes == 0) return 'n/a';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
-};
+}
 
 export function fileSelected() {
     var oFile = document.getElementById('selected_file').files[0];
@@ -114,7 +114,7 @@ export function fileSelected() {
         document.getElementById('fileinfo').style.display = 'block';
         document.getElementById('filename').innerHTML = 'Name: ' + oFile.name;
         document.getElementById('filesize').innerHTML = 'Size: ' + bytesToSize(oFile.size);
-        document.getElementById('filetype').innerHTML = 'Type: ' + oFile.type;    
+        document.getElementById('filetype').innerHTML = 'Type: ' + oFile.type;
         fileSize = oFile.size;
     };
     oReader.readAsDataURL(oFile);
